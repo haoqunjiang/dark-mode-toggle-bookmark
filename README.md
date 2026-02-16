@@ -5,6 +5,12 @@ Toggle Dark / Light mode for any website directly clicking on a Bookmark. This i
 - Works perfectly for Google products (Calendar, Docs, Sheet, Ads, Analytics, Tag Manager), Facebook, Instagram, etc.
 - Works on any browser.
 
+## Online bookmark page
+
+Open the hosted page directly:
+
+[https://haoqunjiang.github.io/dark-mode-toggle-bookmark/dark_mode_toggle.html](https://haoqunjiang.github.io/dark-mode-toggle-bookmark/dark_mode_toggle.html)
+
 ## How to use
 
 1. Download and unzip the file
