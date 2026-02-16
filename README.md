@@ -20,3 +20,4 @@ To adapt image/video rendering in dark mode, tweak these constants in `dark_mode
 - `MEDIA_BRIGHTNESS` (default `0.86`): lower is dimmer.
 - `MEDIA_CONTRAST` (default `0.95`): lower softens highlights.
 - `MEDIA_SATURATION` (default `0.92`): lower makes media colors less intense.
+- `FALLBACK_BACKGROUND_PRE_INVERT` (default `#eeeeee`): used only when `html`/`body` are transparent; it renders as approximately `#111111` after page inversion.

@@ -1,12 +1,64 @@
 javascript:(function(){
   const TOGGLE_CLASS = '__dark_mode_on__';
   const STYLE_ID = '__dark_mode_toggle_style__';
+  const FALLBACK_BACKGROUND_PRE_INVERT = '#eeeeee';
+  const HTML_BG_ATTR = 'data-dark-mode-prev-html-bg';
+  const BODY_BG_ATTR = 'data-dark-mode-prev-body-bg';
+  const HTML_APPLIED_ATTR = 'data-dark-mode-html-bg-applied';
+  const BODY_APPLIED_ATTR = 'data-dark-mode-body-bg-applied';
   const MEDIA_BRIGHTNESS = 0.86;
   const MEDIA_CONTRAST = 0.95;
   const MEDIA_SATURATION = 0.92;
   const doc = document;
-  const head = doc.head || doc.getElementsByTagName('head')[0] || doc.documentElement;
+  const root = doc.documentElement;
+  const head = doc.head || doc.getElementsByTagName('head')[0] || root;
   let style = doc.getElementById(STYLE_ID);
+
+  function isTransparentBackground(el) {
+    if (!el) return false;
+    const color = getComputedStyle(el).backgroundColor;
+    if (!color) return true;
+    const normalized = color.replace(/\s+/g, '').toLowerCase();
+    if (normalized === 'transparent') return true;
+    const match = normalized.match(/^rgba?\(([^)]+)\)$/);
+    if (!match) return false;
+    const parts = match[1].split(',');
+    if (parts.length < 4) return false;
+    const alpha = parseFloat(parts[3]);
+    return Number.isFinite(alpha) && alpha === 0;
+  }
+
+  function applyFallbackBackground() {
+    const body = doc.body;
+    if (isTransparentBackground(root)) {
+      root.setAttribute(HTML_BG_ATTR, root.style.backgroundColor || '');
+      root.style.backgroundColor = FALLBACK_BACKGROUND_PRE_INVERT;
+      root.setAttribute(HTML_APPLIED_ATTR, '1');
+    }
+    if (body && isTransparentBackground(body)) {
+      body.setAttribute(BODY_BG_ATTR, body.style.backgroundColor || '');
+      body.style.backgroundColor = FALLBACK_BACKGROUND_PRE_INVERT;
+      body.setAttribute(BODY_APPLIED_ATTR, '1');
+    }
+  }
+
+  function restoreFallbackBackground() {
+    const body = doc.body;
+    if (root.getAttribute(HTML_APPLIED_ATTR) === '1') {
+      const prev = root.getAttribute(HTML_BG_ATTR) || '';
+      if (prev) root.style.backgroundColor = prev;
+      else root.style.removeProperty('background-color');
+      root.removeAttribute(HTML_BG_ATTR);
+      root.removeAttribute(HTML_APPLIED_ATTR);
+    }
+    if (body && body.getAttribute(BODY_APPLIED_ATTR) === '1') {
+      const prev = body.getAttribute(BODY_BG_ATTR) || '';
+      if (prev) body.style.backgroundColor = prev;
+      else body.style.removeProperty('background-color');
+      body.removeAttribute(BODY_BG_ATTR);
+      body.removeAttribute(BODY_APPLIED_ATTR);
+    }
+  }
 
   if (!style) {
     const mediaFilter = `invert(1) hue-rotate(180deg) brightness(${MEDIA_BRIGHTNESS}) contrast(${MEDIA_CONTRAST}) saturate(${MEDIA_SATURATION})`;
@@ -32,5 +84,7 @@ javascript:(function(){
     head.appendChild(style);
   }
 
-  doc.documentElement.classList.toggle(TOGGLE_CLASS);
+  const isDarkModeOn = root.classList.toggle(TOGGLE_CLASS);
+  if (isDarkModeOn) applyFallbackBackground();
+  else restoreFallbackBackground();
 })();
