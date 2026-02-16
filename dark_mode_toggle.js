@@ -72,7 +72,6 @@ javascript:(function(){
       }
 
       html.${TOGGLE_CLASS} img,
-      html.${TOGGLE_CLASS} picture,
       html.${TOGGLE_CLASS} video,
       html.${TOGGLE_CLASS} canvas,
       html.${TOGGLE_CLASS} svg,
