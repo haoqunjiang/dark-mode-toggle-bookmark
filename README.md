@@ -21,3 +21,19 @@ To adapt image/video rendering in dark mode, tweak these constants in `dark_mode
 - `MEDIA_CONTRAST` (default `0.95`): lower softens highlights.
 - `MEDIA_SATURATION` (default `0.92`): lower makes media colors less intense.
 - `FALLBACK_BACKGROUND_PRE_INVERT` (default `#eeeeee`): used only when `html`/`body` are transparent; it renders as approximately `#111111` after page inversion.
+
+## Sync JS to HTML bookmark
+
+After editing `dark_mode_toggle.js`, run:
+
+```bash
+node scripts/sync-bookmarklet.js
+```
+
+Optional custom paths:
+
+```bash
+node scripts/sync-bookmarklet.js path/to/source.js path/to/bookmarks.html
+```
+
+The script updates the `HREF="javascript:..."` entry in the HTML file and validates bookmarklet syntax.
