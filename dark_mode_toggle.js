@@ -67,7 +67,6 @@ javascript:(function(){
     style.type = 'text/css';
     style.textContent = `
       html.${TOGGLE_CLASS} {
-        -webkit-filter: invert(1) hue-rotate(180deg);
         filter: invert(1) hue-rotate(180deg);
       }
 
@@ -77,7 +76,6 @@ javascript:(function(){
       html.${TOGGLE_CLASS} svg,
       html.${TOGGLE_CLASS} iframe,
       html.${TOGGLE_CLASS} a[data-brand][href*="theinitium.com"] {
-        -webkit-filter: ${mediaFilter};
         filter: ${mediaFilter};
       }
     `;
