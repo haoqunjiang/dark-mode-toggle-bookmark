@@ -75,7 +75,8 @@ javascript:(function(){
       html.${TOGGLE_CLASS} video,
       html.${TOGGLE_CLASS} canvas,
       html.${TOGGLE_CLASS} svg,
-      html.${TOGGLE_CLASS} iframe {
+      html.${TOGGLE_CLASS} iframe,
+      html.${TOGGLE_CLASS} a[data-brand][href*="theinitium.com"] {
         -webkit-filter: ${mediaFilter};
         filter: ${mediaFilter};
       }
